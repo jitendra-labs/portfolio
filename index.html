@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jitendra Kumar — Full Stack Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #080C14;
+    --surface: #0F1522;
+    --card: #141B2D;
+    --border: #1E2A42;
+    --violet: #7C5CFF;
+    --cyan: #22D3EE;
+    --green: #10B981;
+    --amber: #FBBF24;
+    --text: #F0F4FF;
+    --muted: #7A8BA8;
+    --dim: #3A4A66;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans-serif; line-height:1.65; overflow-x:hidden; }
+
+  .orb { position:fixed; border-radius:50%; filter:blur(120px); pointer-events:none; z-index:0; opacity:0.11; }
+  .orb-1 { width:600px; height:600px; background:var(--violet); top:-200px; right:-100px; }
+  .orb-2 { width:400px; height:400px; background:var(--cyan); bottom:-100px; left:-100px; }
+
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:0 48px; height:64px; display:flex; align-items:center; justify-content:space-between; background:rgba(8,12,20,0.85); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+  .nav-logo { font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--cyan); letter-spacing:0.08em; }
+  .nav-links { display:flex; gap:32px; list-style:none; }
+  .nav-links a { color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--text); }
+  .nav-cta { background:var(--violet) !important; color:white !important; padding:8px 20px; border-radius:8px; font-weight:600 !important; }
+  .nav-cta:hover { background:#6B4EE0 !important; }
+
+  /* HERO */
+  #hero { min-height:100vh; display:flex; align-items:center; padding:100px 48px 80px; max-width:1140px; margin:0 auto; position:relative; z-index:1; }
+  .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(124,92,255,0.12); border:1px solid rgba(124,92,255,0.3); border-radius:100px; padding:6px 16px; font-size:13px; color:var(--violet); font-family:'JetBrains Mono',monospace; margin-bottom:28px; }
+  .badge-dot { width:7px; height:7px; background:var(--green); border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero-name { font-size:clamp(50px,7.5vw,86px); font-weight:700; line-height:1.04; letter-spacing:-0.035em; margin-bottom:12px; }
+  .hero-name span { color:var(--violet); }
+  .hero-title { font-family:'JetBrains Mono',monospace; font-size:clamp(15px,2vw,19px); color:var(--cyan); margin-bottom:22px; min-height:28px; }
+  .cursor { display:inline-block; width:2px; height:1em; background:var(--cyan); margin-left:2px; vertical-align:text-bottom; animation:blink 1s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .hero-desc { font-size:17px; color:var(--muted); max-width:580px; margin-bottom:40px; line-height:1.8; }
+  .hero-desc strong { color:var(--text); }
+  .hero-actions { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:64px; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:13px 28px; border-radius:10px; font-size:15px; font-weight:600; text-decoration:none; transition:all 0.22s; cursor:pointer; border:none; font-family:'Space Grotesk',sans-serif; }
+  .btn-primary { background:var(--violet); color:white; }
+  .btn-primary:hover { background:#6B4EE0; transform:translateY(-2px); box-shadow:0 8px 32px rgba(124,92,255,0.35); }
+  .btn-ghost { background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn-ghost:hover { border-color:var(--violet); color:var(--violet); transform:translateY(-2px); }
+  .hero-stats { display:flex; gap:52px; flex-wrap:wrap; }
+  .stat-num { font-size:38px; font-weight:700; line-height:1; letter-spacing:-0.04em; }
+  .stat-num span { color:var(--violet); }
+  .stat-label { font-size:13px; color:var(--muted); margin-top:5px; }
+
+  /* COMMON SECTION */
+  section { position:relative; z-index:1; }
+  .section-wrap { max-width:1140px; margin:0 auto; padding:100px 48px; }
+  .section-label { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--violet); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; }
+  .section-title { font-size:clamp(28px,4vw,44px); font-weight:700; letter-spacing:-0.025em; margin-bottom:56px; line-height:1.12; }
+  .section-title span { color:var(--violet); }
+  .divider { height:1px; background:var(--border); max-width:1140px; margin:0 auto; }
+
+  /* ABOUT */
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+  .about-photo-wrap { display:flex; justify-content:center; margin-bottom:32px; }
+  .about-photo { width:160px; height:160px; border-radius:50%; border:3px solid var(--violet); box-shadow:0 0 0 6px rgba(124,92,255,0.12),0 16px 48px rgba(0,0,0,0.5); object-fit:cover; display:block; }
+  .about-photo-placeholder { width:160px; height:160px; border-radius:50%; border:3px dashed rgba(124,92,255,0.5); box-shadow:0 0 0 6px rgba(124,92,255,0.07); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:rgba(124,92,255,0.06); color:var(--muted); font-size:12px; text-align:center; line-height:1.5; }
+  .about-photo-placeholder .ph-icon { font-size:38px; }
+  .about-text p { color:var(--muted); font-size:16px; line-height:1.85; margin-bottom:18px; }
+  .about-text p strong { color:var(--text); }
+  .about-details { display:flex; flex-direction:column; gap:12px; }
+  .detail-row { display:flex; align-items:center; gap:14px; padding:14px 18px; background:var(--card); border:1px solid var(--border); border-radius:10px; transition:border-color 0.2s; }
+  .detail-row:hover { border-color:var(--violet); }
+  .detail-icon { font-size:18px; }
+  .detail-label { font-size:11px; color:var(--muted); margin-bottom:2px; }
+  .detail-value { font-size:14px; font-weight:600; color:var(--text); }
+
+  /* SKILLS */
+  .skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px; }
+  .skill-group { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px; transition:border-color 0.2s,transform 0.2s; }
+  .skill-group:hover { border-color:var(--violet); transform:translateY(-3px); }
+  .skill-group-title { font-size:12px; font-weight:600; color:var(--cyan); font-family:'JetBrains Mono',monospace; margin-bottom:14px; letter-spacing:0.05em; }
+  .skill-tags { display:flex; flex-wrap:wrap; gap:7px; }
+  .tag { display:inline-block; padding:5px 12px; border-radius:6px; font-size:13px; font-weight:500; background:rgba(124,92,255,0.09); color:var(--muted); border:1px solid rgba(124,92,255,0.14); transition:all 0.2s; }
+  .tag:hover { background:rgba(124,92,255,0.2); color:var(--text); border-color:var(--violet); }
+
+  /* EXPERIENCE */
+  .timeline { display:flex; flex-direction:column; }
+  .timeline-item { display:grid; grid-template-columns:190px 1px 1fr; gap:0 32px; padding-bottom:52px; }
+  .timeline-item:last-child { padding-bottom:0; }
+  .timeline-date { text-align:right; padding-top:4px; }
+  .timeline-date-range { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--violet); line-height:1.5; }
+  .timeline-date-company { font-size:12px; color:var(--muted); margin-top:4px; }
+  .timeline-line { display:flex; flex-direction:column; align-items:center; }
+  .timeline-dot { width:10px; height:10px; background:var(--violet); border-radius:50%; border:2px solid var(--bg); box-shadow:0 0 0 3px rgba(124,92,255,0.3); flex-shrink:0; margin-top:6px; }
+  .timeline-connector { width:1px; flex:1; background:var(--border); margin-top:8px; }
+  .timeline-item:last-child .timeline-connector { display:none; }
+  .timeline-role { font-size:19px; font-weight:700; color:var(--text); margin-bottom:4px; }
+  .timeline-company-name { font-size:14px; color:var(--cyan); font-weight:600; margin-bottom:14px; }
+  .timeline-bullets { list-style:none; display:flex; flex-direction:column; gap:9px; }
+  .timeline-bullets li { font-size:14px; color:var(--muted); padding-left:18px; position:relative; line-height:1.65; }
+  .timeline-bullets li::before { content:'▹'; color:var(--violet); position:absolute; left:0; font-size:12px; top:3px; }
+
+  /* PROJECTS */
+  .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:22px; }
+  .project-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:all 0.25s; position:relative; overflow:hidden; }
+  .project-card::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(124,92,255,0.06) 0%,transparent 60%); opacity:0; transition:opacity 0.25s; pointer-events:none; }
+  .project-card:hover { border-color:var(--violet); transform:translateY(-4px); box-shadow:0 16px 48px rgba(0,0,0,0.45); }
+  .project-card:hover::after { opacity:1; }
+  .project-card.featured { border-color:rgba(124,92,255,0.35); }
+  .project-header { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+  .project-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; background:rgba(124,92,255,0.12); border:1px solid rgba(124,92,255,0.2); flex-shrink:0; }
+  .project-badges { display:flex; gap:6px; flex-wrap:wrap; }
+  .badge { font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:3px 9px; border-radius:100px; }
+  .badge-new { background:rgba(16,185,129,0.15); color:var(--green); border:1px solid rgba(16,185,129,0.3); }
+  .badge-ai { background:rgba(251,191,36,0.12); color:var(--amber); border:1px solid rgba(251,191,36,0.25); }
+  .badge-saas { background:rgba(34,211,238,0.12); color:var(--cyan); border:1px solid rgba(34,211,238,0.25); }
+  .project-name { font-size:18px; font-weight:700; color:var(--text); }
+  .project-period { font-size:12px; color:var(--muted); font-family:'JetBrains Mono',monospace; margin-top:2px; }
+  .project-desc { font-size:14px; color:var(--muted); line-height:1.72; flex:1; }
+  .project-highlight { background:rgba(124,92,255,0.08); border-left:3px solid var(--violet); border-radius:0 6px 6px 0; padding:10px 14px; font-size:13px; color:var(--muted); line-height:1.6; }
+  .project-highlight strong { color:var(--violet); }
+  .project-tech { display:flex; flex-wrap:wrap; gap:6px; }
+  .tech-tag { font-size:11px; font-family:'JetBrains Mono',monospace; padding:4px 10px; border-radius:5px; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--muted); }
+
+  /* EDUCATION */
+  .edu-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
+  .edu-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px 24px; transition:border-color 0.2s; }
+  .edu-card:hover { border-color:var(--violet); }
+  .edu-degree { font-size:15px; font-weight:700; color:var(--text); margin-bottom:5px; }
+  .edu-school { font-size:13px; color:var(--cyan); margin-bottom:5px; }
+  .edu-year { font-size:12px; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+
+  /* CONTACT */
+  #contact { background:var(--surface); border-top:1px solid var(--border); }
+  .contact-inner { max-width:1140px; margin:0 auto; padding:100px 48px; text-align:center; }
+  .contact-title { font-size:clamp(32px,5vw,58px); font-weight:700; letter-spacing:-0.03em; margin-bottom:16px; }
+  .contact-sub { font-size:17px; color:var(--muted); margin:0 auto 48px; max-width:480px; }
+  .contact-links { display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin-bottom:60px; }
+  .contact-link { display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:var(--card); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); font-size:14px; font-weight:600; transition:all 0.2s; }
+  .contact-link:hover { border-color:var(--violet); color:var(--violet); transform:translateY(-3px); }
+  .footer-note { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dim); }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* MOBILE */
+  @media(max-width:768px){
+    nav { padding:0 20px; }
+    .nav-links { display:none; }
+    #hero,.section-wrap,.contact-inner { padding-left:20px; padding-right:20px; }
+    .about-grid { grid-template-columns:1fr; gap:36px; }
+    .timeline-item { grid-template-columns:0 1px 1fr; }
+    .timeline-date { display:none; }
+    .hero-stats { gap:28px; }
+    .projects-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">jit.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div>
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Open to new opportunities
+    </div>
+    <h1 class="hero-name">Jitendra<br /><span>Kumar</span></h1>
+    <div class="hero-title" id="typed-title"><span class="cursor"></span></div>
+    <p class="hero-desc">
+      Building scalable systems and <strong>AI-powered tools</strong> with 7+ years of experience in Node.js, React, Python, and microservices. I turn complex problems into clean, production-grade software.
+    </p>
+    <div class="hero-actions">
+      <a href="mailto:jitendra14949@gmail.com" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        Get in Touch
+      </a>
+      <a href="https://github.com/jitendra-labs" target="_blank" class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+      <a href="https://linkedin.com/in/jitendra-kumar-jit" target="_blank" class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="./assets/Jitendra_Kumar_Resume.pdf" download class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Resume
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num"><span class="count" data-target="7">0</span>+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="count" data-target="10">0</span>+</div>
+        <div class="stat-label">Projects Shipped</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="count" data-target="95">0</span>%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="count" data-target="80">0</span>%</div>
+        <div class="stat-label">Tasks Automated</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="divider"></div>
+  <div class="section-wrap">
+    <p class="section-label">01 / about</p>
+    <h2 class="section-title">Who I <span>Am</span></h2>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <div class="about-photo-wrap">
+            <img src="./assets/profile.jpeg" alt="Jitendra Kumar" class="about-photo" />
+          <!-- <div class="about-photo-placeholder">
+            <span class="ph-icon">👤</span>
+            Your Photo<br/>Here
+          </div> -->
+        </div>
+        <p>I'm a <strong>Full Stack Software Engineer</strong> based in Kolkata, India, with over 7 years of experience building production-grade systems for healthcare, education, logistics, and enterprise clients worldwide.</p>
+        <p>My recent work is deep in <strong>AI-powered applications</strong> — from multi-layered LLM assistants and RAG document intelligence to automated GitHub code-review bots. I love working where solid backend architecture meets intelligent automation.</p>
+        <p>I've led teams, mentored developers, and shipped software that makes measurable impact. Currently <strong>open to full-time or contract roles</strong> — remote-first preferred.</p>
+      </div>
+      <div class="about-details">
+        <div class="detail-row"><span class="detail-icon">📍</span><div><div class="detail-label">Location</div><div class="detail-value">Kolkata, India · Remote-Ready</div></div></div>
+        <div class="detail-row"><span class="detail-icon">📧</span><div><div class="detail-label">Email</div><div class="detail-value">jitendra14949@gmail.com</div></div></div>
+        <div class="detail-row"><span class="detail-icon">📱</span><div><div class="detail-label">Phone</div>
+        <div class="detail-value">+91 79808 69308</div></div></div>
+        <div class="detail-row"><span class="detail-icon">🌐</span><div><div class="detail-label">Languages</div><div class="detail-value">English · Hindi · Bengali</div></div></div>
+        <div class="detail-row"><span class="detail-icon">🎓</span><div><div class="detail-label">Education</div><div class="detail-value">MCA (Pursuing) · BCA 2018</div></div></div>
+        <div class="detail-row"><span class="detail-icon">✅</span><div><div class="detail-label">Status</div><div class="detail-value" style="color:var(--green)">Available for Opportunities</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="divider"></div>
+  <div class="section-wrap">
+    <p class="section-label">02 / skills</p>
+    <h2 class="section-title">What I <span>Build With</span></h2>
+    <div class="skills-grid reveal">
+      <div class="skill-group"><div class="skill-group-title">// Languages</div><div class="skill-tags"><span class="tag">JavaScript</span><span class="tag">TypeScript</span><span class="tag">Python</span><span class="tag">PHP</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">// Backend</div><div class="skill-tags"><span class="tag">Node.js</span><span class="tag">Express.js</span><span class="tag">NestJS</span><span class="tag">FastAPI</span><span class="tag">CodeIgniter</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">// Frontend</div><div class="skill-tags"><span class="tag">React.js</span><span class="tag">HTML / CSS</span><span class="tag">JavaScript</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">// Databases</div><div class="skill-tags"><span class="tag">PostgreSQL</span><span class="tag">MySQL</span><span class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">pgvector</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">// AI / ML</div><div class="skill-tags"><span class="tag">Gemini API</span><span class="tag">OpenAI API</span><span class="tag">Ollama / Llama</span><span class="tag">RAG</span><span class="tag">LLM Integration</span><span class="tag">Vector Embeddings</span><span class="tag">OCR</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">// DevOps & Cloud</div><div class="skill-tags"><span class="tag">Docker</span><span class="tag">AWS</span><span class="tag">AWS S3</span><span class="tag">RabbitMQ</span><span class="tag">Git</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">// Architecture</div><div class="skill-tags"><span class="tag">Microservices</span><span class="tag">REST APIs</span><span class="tag">Event-Driven</span><span class="tag">System Design</span><span class="tag">SaaS</span><span class="tag">Webhooks</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">// Leadership</div><div class="skill-tags"><span class="tag">Team Lead (6 devs)</span><span class="tag">Agile / Scrum</span><span class="tag">Mentoring</span><span class="tag">Stakeholder Comms</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="divider"></div>
+  <div class="section-wrap">
+    <p class="section-label">03 / experience</p>
+    <h2 class="section-title">Where I've <span>Worked</span></h2>
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <div class="timeline-date-range">Sep 2023 — Present</div>
+          <div class="timeline-date-company">Kolkata, India</div>
+        </div>
+        <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-connector"></div></div>
+        <div>
+          <div class="timeline-role">Senior Software Engineer</div>
+          <div class="timeline-company-name">Codelogicx Technologies</div>
+          <ul class="timeline-bullets">
+            <li>Led a team of 6 engineers building scalable microservices and full-stack solutions with Node.js, NestJS, and Docker.</li>
+            <li>Delivered a workflow automation platform (Zapier alternative) that automated 80% of repetitive tasks and improved integration efficiency by 45%.</li>
+            <li>Optimized API performance and security across all production services.</li>
+            <li>Mentored junior developers and enforced engineering best practices to elevate code quality.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <div class="timeline-date-range">May 2019 — Aug 2023</div>
+          <div class="timeline-date-company">Kolkata, India</div>
+        </div>
+        <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-connector"></div></div>
+        <div>
+          <div class="timeline-role">Software Engineer</div>
+          <div class="timeline-company-name">Voyagerman Technology</div>
+          <ul class="timeline-bullets">
+            <li>Full stack development and end-to-end deployment management for multiple client projects.</li>
+            <li>Guided teams through requirements, system architecture, and the full delivery lifecycle.</li>
+            <li>Collaborated directly with stakeholders to align features with business goals — achieving 95% client satisfaction.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="divider"></div>
+  <div class="section-wrap">
+    <p class="section-label">04 / projects</p>
+    <h2 class="section-title">Things I've <span>Built</span></h2>
+    <div class="projects-grid reveal">
+
+      <!-- PR-Lens -->
+      <div class="project-card featured">
+        <div class="project-header">
+          <div class="project-icon">🔍</div>
+          <div class="project-badges"><span class="badge badge-new">New</span><span class="badge badge-ai">AI</span></div>
+        </div>
+        <div><div class="project-name">PR-Lens</div><div class="project-period">Jun 2026 – Present</div></div>
+        <p class="project-desc">GitHub AI PR Review System — a GitHub App that automatically reviews every pull request using a multi-tool static analysis pipeline and AI-generated commentary. Hooks GitHub webhooks, clones the PR branch, runs parallel analyzers, and posts structured inline review comments.</p>
+        <div class="project-highlight"><strong>Analyzers:</strong> Bandit · ESLint · Gitleaks (secret scanning) · Semgrep · Ruff · TypeScript · Ollama AI — all orchestrated by a fault-tolerant AnalyzerManager that continues even if individual tools fail.</div>
+        <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">FastAPI</span><span class="tech-tag">Gemini AI</span><span class="tech-tag">Ollama</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">GitHub App</span><span class="tech-tag">Docker</span></div>
+      </div>
+
+      <!-- DocMind AI -->
+      <div class="project-card featured">
+        <div class="project-header">
+          <div class="project-icon">🧠</div>
+          <div class="project-badges"><span class="badge badge-new">New</span><span class="badge badge-ai">AI</span></div>
+        </div>
+        <div><div class="project-name">DocMind AI</div><div class="project-period">Jun 2026 – Present</div></div>
+        <p class="project-desc">AI-powered document intelligence platform with a full RAG pipeline. Upload any document — including scanned PDFs via OCR — and chat with it using a local LLM. Chunks text into embeddings stored in pgvector, retrieves the most relevant context, and streams answers in real-time.</p>
+        <div class="project-highlight"><strong>Stack:</strong> Llama 3.2 via Ollama · all-MiniLM-L6-v2 embeddings (384-dim) · OCR · pgvector · streaming chat API — fully private, runs locally, zero cloud dependency.</div>
+        <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">FastAPI</span><span class="tech-tag">Ollama / Llama 3.2</span><span class="tech-tag">pgvector</span><span class="tech-tag">RAG</span><span class="tech-tag">OCR</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Docker</span></div>
+      </div>
+
+      <!-- Zoma -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">⚡</div>
+          <div class="project-badges"><span class="badge badge-ai">AI</span></div>
+        </div>
+        <div><div class="project-name">Zoma</div><div class="project-period">Oct 2025 – Present</div></div>
+        <p class="project-desc">Project estimation system with automated company and sandbox account provisioning plus a multi-layered LLM assistant leveraging Gemini and ChatGPT. Reduced manual onboarding effort by 95%.</p>
+        <div class="project-tech"><span class="tech-tag">Node.js</span><span class="tech-tag">Python</span><span class="tech-tag">Gemini</span><span class="tech-tag">ChatGPT</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Redis</span><span class="tech-tag">Docker</span><span class="tech-tag">CI/CD</span></div>
+      </div>
+
+      <!-- Linear Health -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🏥</div>
+          <div class="project-badges"><span class="badge badge-saas">SaaS</span></div>
+        </div>
+        <div><div class="project-name">Linear Health</div><div class="project-period">Nov 2024 – Oct 2025</div></div>
+        <p class="project-desc">Patient engagement and workflow automation system for healthcare providers. Intelligent task routing and automated patient communication reduced manual clinical effort by 25%. Maintained a CI/CD pipeline for reliable, zero-downtime deployments.</p>
+        <div class="project-tech"><span class="tech-tag">Node.js</span><span class="tech-tag">NestJS</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Redis</span><span class="tech-tag">Docker</span><span class="tech-tag">CI/CD</span></div>
+      </div>
+
+      <!-- Vardian -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">📊</div>
+          <div class="project-badges"><span class="badge badge-saas">SaaS</span></div>
+        </div>
+        <div><div class="project-name">Vardian</div><div class="project-period">Sep 2023 – Mar 2025</div></div>
+        <p class="project-desc">SaaS enterprise asset management platform with offline sync, real-time messaging via RabbitMQ & Getstream, and a React frontend backed by Node.js microservices.</p>
+        <div class="project-tech"><span class="tech-tag">React.js</span><span class="tech-tag">Node.js</span><span class="tech-tag">RabbitMQ</span><span class="tech-tag">Getstream</span><span class="tech-tag">Pusher</span><span class="tech-tag">Microservices</span></div>
+      </div>
+
+      <!-- MDG -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🚢</div>
+          <div class="project-badges"><span class="badge badge-ai">OCR</span></div>
+        </div>
+        <div><div class="project-name">MDG — Shipment Tracking</div><div class="project-period">Apr 2024 – Present</div></div>
+        <p class="project-desc">OCR-driven shipment tracking system integrating multiple manufacturer data sources. Improved data accuracy and reporting efficiency by 35%.</p>
+        <div class="project-tech"><span class="tech-tag">Python / FastAPI</span><span class="tech-tag">Node.js</span><span class="tech-tag">React.js</span><span class="tech-tag">AWS S3</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Docker</span></div>
+      </div>
+
+      <!-- Jobs in Education -->
+      <div class="project-card">
+        <div class="project-header"><div class="project-icon">🎓</div><div class="project-badges"><span class="badge badge-saas">Portal</span></div></div>
+        <div><div class="project-name">Jobs In Education (ATPL)</div><div class="project-period">Jun 2020 – Jul 2023</div></div>
+        <p class="project-desc">Full-featured job portal for the education sector — job search, resume builder, employer dashboards. Grew platform usage by 50% among targeted employers.</p>
+        <div class="project-tech"><span class="tech-tag">Node.js</span><span class="tech-tag">Express.js</span><span class="tech-tag">PHP</span><span class="tech-tag">React.js</span><span class="tech-tag">MongoDB</span><span class="tech-tag">MySQL</span></div>
+      </div>
+
+      <!-- ArcelorMittal -->
+      <div class="project-card">
+        <div class="project-header"><div class="project-icon">🏭</div></div>
+        <div><div class="project-name">Supplier Registration</div><div class="project-period">Oct 2019 – Feb 2022 · ArcelorMittal Group</div></div>
+        <p class="project-desc">Multilingual supplier registration system with admin review workflows for one of the world's largest steel manufacturers.</p>
+        <div class="project-tech"><span class="tech-tag">Node.js</span><span class="tech-tag">PHP</span><span class="tech-tag">React.js</span><span class="tech-tag">MySQL</span><span class="tech-tag">i18n</span></div>
+      </div>
+
+      <!-- Liberty Steel -->
+      <div class="project-card">
+        <div class="project-header"><div class="project-icon">⚙️</div></div>
+        <div><div class="project-name">Product Management API</div><div class="project-period">Apr – Nov 2021 · Liberty Steel Group, UK</div></div>
+        <p class="project-desc">REST APIs for a mobile product lifecycle management app for a global steel group, with backend performance optimizations in Node.js and MySQL.</p>
+        <div class="project-tech"><span class="tech-tag">Node.js</span><span class="tech-tag">MySQL</span><span class="tech-tag">REST APIs</span></div>
+      </div>
+
+      <!-- Mallcom -->
+      <div class="project-card">
+        <div class="project-header"><div class="project-icon">🛒</div></div>
+        <div><div class="project-name">E-Commerce Platform</div><div class="project-period">Aug 2019 – Sep 2021 · Mallcom India</div></div>
+        <p class="project-desc">Full-stack e-commerce platform with admin panel and integrated blog — built from scratch for a leading Indian safety equipment brand.</p>
+        <div class="project-tech"><span class="tech-tag">PHP</span><span class="tech-tag">CodeIgniter</span><span class="tech-tag">MySQL</span><span class="tech-tag">JavaScript</span></div>
+      </div>
+
+      <!-- School Management -->
+      <div class="project-card">
+        <div class="project-header"><div class="project-icon">🏫</div></div>
+        <div><div class="project-name">School Management System</div><div class="project-period">May 2019 – Aug 2023 · Newtown School</div></div>
+        <p class="project-desc">End-to-end school management platform developed and maintained over 4 years. Covers the full student lifecycle — from admission enquiry to fee collection — with dedicated portals for students and administrators. Streamlined day-to-day school operations and reduced manual administrative overhead significantly.</p>
+        <div class="project-highlight"><strong>Key modules:</strong> Online admission flow · Fee payment & receipts · Student self-service portal · Admin dashboard with reporting</div>
+        <div class="project-tech"><span class="tech-tag">Node.js</span><span class="tech-tag">CodeIgniter</span><span class="tech-tag">MySQL</span><span class="tech-tag">React.js</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="divider"></div>
+  <div class="section-wrap">
+    <p class="section-label">05 / education</p>
+    <h2 class="section-title">Academic <span>Background</span></h2>
+    <div class="edu-grid reveal">
+      <div class="edu-card"><div class="edu-degree">Master of Computer Applications (MCA)</div><div class="edu-school">Mangalayatan University, Aligarh</div><div class="edu-year">2024 – Pursuing</div></div>
+      <div class="edu-card"><div class="edu-degree">Bachelor of Computer Applications (BCA)</div><div class="edu-school">Monad University, Hapur (U.P)</div><div class="edu-year">2015 – 2018</div></div>
+      <div class="edu-card"><div class="edu-degree">Professional Software Development</div><div class="edu-school">PHP Kolkata · Certification</div><div class="edu-year">Dec 2018 – May 2019</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <p class="section-label" style="text-align:center">06 / contact</p>
+    <h2 class="contact-title">Let's Build Something<br /><span style="color:var(--violet)">Together</span></h2>
+    <p class="contact-sub">Open to full-time, contract, and remote opportunities. Got an interesting project or role? I'd love to hear about it.</p>
+    <div class="contact-links">
+      <a href="mailto:jitendra14949@gmail.com" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        jitendra14949@gmail.com
+      </a>
+      <!-- <a href="tel:+917980869308" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +91 79808 69308
+      </a>
+ -->      <a href="https://linkedin.com/in/jitendra-kumar-jit" target="_blank" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/jitendra-labs" target="_blank" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+      <a href="./assets/Jitendra_Kumar_Resume.pdf" download class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Resume
+      </a>
+    </div>
+    <div class="footer-note">Designed & built · Jitendra Kumar · 2026</div>
+  </div>
+</section>
+
+<script>
+  // Typing effect
+  const phrases = ['Full Stack Engineer','AI Tools Builder','Microservices Architect','Node.js · React · Python'];
+  let pi = 0, ci = 0, del = false;
+  const el = document.getElementById('typed-title');
+  function type() {
+    const p = phrases[pi];
+    if (!del) { ci++; el.innerHTML = p.slice(0,ci) + '<span class="cursor"></span>'; if (ci===p.length) { del=true; setTimeout(type,2200); return; } }
+    else { ci--; el.innerHTML = p.slice(0,ci) + '<span class="cursor"></span>'; if (ci===0) { del=false; pi=(pi+1)%phrases.length; } }
+    setTimeout(type, del?45:75);
+  }
+  type();
+
+  // Count-up
+  function countUp(el, target, dur) {
+    let s=0; const step=target/(dur/16);
+    const t=setInterval(()=>{ s+=step; if(s>=target){el.textContent=target;clearInterval(t);return;} el.textContent=Math.floor(s); },16);
+  }
+  let counted=false;
+  const statsObs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting&&!counted){ counted=true; document.querySelectorAll('.count').forEach(el=>countUp(el,parseInt(el.dataset.target),1200)); } }); });
+  statsObs.observe(document.querySelector('.hero-stats'));
+
+  // Scroll reveal
+  const revObs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+</script>
+</body>
+</html>
